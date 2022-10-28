@@ -1,0 +1,45 @@
+project_name: exabgp_exporter
+dist: build
+
+before:
+  hooks:
+    - go mod download
+
+release:
+  prerelease: auto
+  mode: replace
+
+builds:
+  - binary: exabgp_exporter
+    main: ./cmd/exabgp_exporter
+    env:
+      - CGO_ENABLED=0
+      - GO111MODULE=on
+    flags:
+      - -trimpath
+    ldflags:
+      - "{{.Env.LDFLAGS}}"
+    hooks:
+      post:
+        - /bin/sh -c "upx -q '{{.Path}}' || true"
+    goos:
+      - dragonfly
+      - freebsd
+      - linux
+      - netbsd
+      - windows
+    goarch:
+      - 386
+      - amd64
+      - arm
+      - arm64
+    goarm:
+      - 5
+      - 6
+      - 7
+
+archives:
+  - format: binary
+
+checksum:
+  algorithm: sha512
