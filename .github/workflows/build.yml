@@ -31,5 +31,4 @@ jobs:
           version: 1.12.3
           args: release --rm-dist
         env:
-          LDFLAGS: "-s -v"
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
